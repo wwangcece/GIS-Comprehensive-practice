@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学生查询</title>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.5-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/stuInfor.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+</head>
+
+<body>
+    <!-- 内容区域 -->
+    <div class="stuInfor_content container-fluid">
+        <div class="row">
+            <!-- 搜索学生栏 -->
+            <div class="row">
+                <div class="stuInfor_searchBar col-md-12 col-lg-12">
+                    <span>实验室：</span>
+                    <select name="" id="stuInfor_selectClass">
+                        <option class="stuInfor_searchOption" value="all">全部</option>
+                    </select>
+
+                    <input type="text" class="stuInfor_inputText" placeholder="输入学生姓名/学号/导师" value='' id="studentInput"
+                        name="">
+                    <span class="searchStu">
+                        <i class="iconfont icon-icon09"></i>
+                        搜索学生
+                    </span>
+                </div>
+            </div>
+            <!-- 批量删除及添加学生 -->
+            <div class="row1">
+                <!-- 批量删除及添加学生按钮 -->
+                <div class="stuInfor_delateAdd col-md-3 col-lg-3">
+                    <button type="button" class="stuInfo_addBtn iconfont icon-icon-test btn btn-info"
+                        data-toggle="modal" data-target="#stuInfor_addStuModal">单个添加</button>
+                </div>
+                <div class="stuInfor_delateAdd col-md-3 col-lg-3">
+                    <button type="button" class="stuInfo_addBtn iconfont icon-icon-test btn btn-info"
+                        data-toggle="modal" data-target="#stuInfor_addallStuModal">批量添加</button>
+                </div>
+                <div class="stuInfor_delateAdd col-md-3 col-lg-3">
+                    <button type="button" class="stuInfo_delateBtn iconfont icon-shanchu btn btn-danger"
+                        data-toggle="modal" data-target="#stuInfor_delateAllStuModal">批量删除</button>
+                </div>
+                <!-- 显示学生总数 -->
+                <div class="stuInfor_stuNumber col-md-3 col-lg-3">
+                    <span class="stuInfor_stuNumberSpan">共有数据：<strong class="stuInfor__stuNumberStrong"></strong>
+                        条</span>
+                    <a href="" class="stuInfo_addBtn btn btn-info">刷新</a>
+                    <div id="export">导出</div>
+                </div>
+            </div>
+            <!-- 显示学生基本信息 -->
+            <div class="row">
+                <div class="stuInfor_table col-md-12 col-lg-12">
+                    <table id="stuInfor_mytable" class="table table-hover table-bordered table-striped">
+                        <thead id="stuInfor_thead">
+                            <tr>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 显示页数 -->
+            <div class="stuInfor_pages row">
+                <div class="stuInfor_pageNumCounts col-lg-12">
+                    <button class="stuInfor_btnComm">上一页</button>
+                    <div id="stuInfor_pageNum"></div>
+                    <button class="stuInfor_btnComm">下一页</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 批量删除学生 -->
+    <!-- Modal -->
+    <div class="modal fade" id="stuInfor_delateAllStuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="stuInfor_delateAllStu_tittle modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="stuInfor_delateAllStu_tab">是否需要批量删除？</h4>
+                    </div>
+                    <div class="stuInfor_delateAllStu_btn stuInfor_addStu modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" id="stuInfor_deleteBatches" class="btn btn-primary"
+                            data-dismiss="modal">确认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 单独删除学生或作退学处理 -->
+    <!-- Modal -->
+    <div class="modal fade" id="stuInfor_delateStuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content1 modal-content">
+                    <div class="stuInfor_delateAllStu_tittle modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="stuInfor_delateAllStu_tab">是否删除？</h4>
+                    </div>
+                    <div class="stuInfor_delateAllStu_btn stuInfor_addStu modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="stuInfor_delete btn btn-primary" data-dismiss="modal">确认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加学生信息 -->
+    <!-- Modal -->
+    <div class="modal fade" id="stuInfor_addStuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="stuInfor_ViewDetails_tittle modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加学生信息</h4>
+                </div>
+                <div class="stuInfor_ViewDetails_content modal-body row">
+                    <div class="stuInfor_addStu row">
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">姓 名<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_stuName"
+                                class="stuInfor_stuName stuInfor_addStu_inputCom" type="text" /></div>
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">座位类别<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_seatcategory"
+                                class="stuInfor_seatcategory stuInfor_addStu_inputCom" type="text" /></div>
+                    </div>
+
+                    <div class="stuInfor_addStu row">
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">状 态<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_status"
+                                class="stuInfor_status stuInfor_addStu_inputCom" type="text" /></div>
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">所属实验室<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_belonglab"
+                                class="stuInfor_belonglab stuInfor_addStu_inputCom" type="text" /></div>
+                    </div>
+
+
+                    <div class="stuInfor_addStu row">
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">学 号<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_stuId"
+                                class="stuInfor_stuId stuInfor_addStu_inputCom" type="text" /></div>
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">所属楼<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input id="stuInfor_belongbuilding"
+                                class="stuInfor_belongbuilding stuInfor_addStu_inputCom" type="text" /></div>
+                    </div>
+                    <div class="stuInfor_addStu row">
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">导 师<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input class="stuInfor_mentor stuInfor_addStu_inputCom"
+                                type="text" /></div>
+                        <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">座位号<i
+                                class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                        <div class="col-md-4 col-lg-4"><input class="stuInfor_seatnumber stuInfor_addStu_inputCom"
+                                type="text" /></div>
+                    </div>
+
+                </div>
+                <div class="stuInfor_addStu_btn stuInfor_addStu modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="stuInfor_addStudent btn btn-primary" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑学生信息 -->
+    <!-- Modal -->
+    <div class="modal fade" id="stuInfor_editStuInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="stuInfor_ViewDetails_tittle modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">编辑学生信息</h4>
+                </div>
+                <div class="stuInfor_ViewDetails_content modal-body row">
+                    <div class="row">
+                        <div class="stuInfor_addStu row">
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">姓 名<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_stuName2"
+                                    class="stuInfor_stuName2 stuInfor_addStu_inputCom" type="text" /></div>
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">座位类别<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_seatcategory2"
+                                    class="stuInfor_seatcategory2 stuInfor_addStu_inputCom" type="text" /></div>
+                        </div>
+
+                        <div class="stuInfor_addStu row">
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">状 态<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_status2"
+                                    class="stuInfor_status2 stuInfor_addStu_inputCom" type="text" /></div>
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">所属实验室<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_belonglab2"
+                                    class="stuInfor_belonglab2 stuInfor_addStu_inputCom" type="text" /></div>
+                        </div>
+
+
+                        <div class="stuInfor_addStu row">
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">学 号<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="n"
+                                    class="stuInfor_stuId2 stuInfor_addStu_inputCom" type="text" /></div>
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">所属楼<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_belongbuilding2"
+                                    class="stuInfor_belongbuilding2 stuInfor_addStu_inputCom" type="text" /></div>
+                        </div>
+                        <div class="stuInfor_addStu row">
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">导 师<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_mentor2"
+                                    class="stuInfor_mentor2 stuInfor_addStu_inputCom" type="text" /></div>
+                            <div class="stuInfor_addStu_col2 stuInfor_addStu_col col-md-2 col-lg-2">座位号<i
+                                    class="stuInfor_addStu_xing iconfont icon-xinghao"></i></div>
+                            <div class="col-md-4 col-lg-4"><input id="stuInfor_seatnumber2"
+                                    class="stuInfor_seatnumber2 stuInfor_addStu_inputCom" type="text" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stuInfor_addStu_btn stuInfor_addStu modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="stuInfor_editStudent btn btn-primary" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--批量添加学生信息-->
+    <!--Modal-->
+    <div class="modal fade" id="stuInfor_addallStuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="stuInfor_ViewDetails_tittle modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">批量添加学生信息</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="stuInfor_addStu row">
+                        <input type="file" id="csvFileInput">
+                    </div>
+                    <div class="stuInfor_addStu_btn stuInfor_addStu modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="stuInfor_addStudentBatches btn btn-primary"
+                        onclick="addStudentBatches()"
+                            data-dismiss="modal">导入文件</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../lib/bootstrap-3.3.5-dist/js/jquery-1.11.3.js"></script>
+        <script src="../lib/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+        <script src="../js/DATE_index.js"></script>
+        <script src="../lib/date/laydate.dev.js"></script>
+        <script src="../lib/jquery-table2excel-master/src/jquery.table2excel.js"></script>
+        <script src="../js/stuInfor.js"></script>
+</body>
+
+</html>

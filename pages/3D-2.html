@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>三维智慧实验室管理系统</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0px;
+        }
+
+        /* 信息弹框 */
+        #infoModal {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: rgba(173, 216, 230, 0.5);
+            /* 使用浅蓝色的rgba颜色，0.7表示透明度 */
+        }
+
+        /* 蒙版 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* 半透明黑色背景 */
+            display: none;
+        }
+
+        .modal-buttons {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-buttons button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- type="importmap"功能：.html文件中也能和nodejs开发环境中一样方式，引入npm安装的js库 -->
+    <script type="importmap">
+        {
+			"imports": {
+				"three": "../lib/three/build/three.module.js",
+                "three/addons/": "../lib/three/examples/jsm/"
+			}
+		}
+	</script>
+    <script src="../js/3D-2.js" type="module">
+    </script>
+    <div id="scene"></div>
+    <!-- 弹窗 -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="popup-content">
+                    <!-- 弹窗内容将在 JavaScript 中更新 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 蒙版+电梯传送按钮 -->
+    <div class="overlay" id="overlay">
+        <div class="modal-buttons">
+            <div id="tipInfo"></div>
+            <br>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="button1"></button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="button2"></button>
+
+        </div>
+    </div>
+    <script src="../lib/bootstrap-3.3.5-dist/js/jquery-1.11.3.js"></script>
+    <script src="../lib/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+</body>
+
+</html>
